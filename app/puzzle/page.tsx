@@ -32,6 +32,10 @@ export default function PuzzlePage() {
   const [shuffled, setShuffled] = useState(false);
 
   useEffect(() => {
+    // Intentional one-time client-only randomization: SSR and hydration must
+    // render the same deterministic SOLVED board, so shuffling has to happen
+    // here, after mount, not during render.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setBoard(shuffledBoard());
     setShuffled(true);
   }, []);
