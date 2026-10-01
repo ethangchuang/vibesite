@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SIZE = 3;
 const SOLVED = [1, 2, 3, 4, 5, 6, 7, 8, 0];
@@ -28,9 +28,15 @@ function shuffledBoard(moves = 100): number[] {
 }
 
 export default function PuzzlePage() {
-  const [board, setBoard] = useState<number[]>(() => shuffledBoard());
+  const [board, setBoard] = useState<number[]>(SOLVED);
+  const [shuffled, setShuffled] = useState(false);
 
-  const isSolved = board.every((tile, i) => tile === SOLVED[i]);
+  useEffect(() => {
+    setBoard(shuffledBoard());
+    setShuffled(true);
+  }, []);
+
+  const isSolved = shuffled && board.every((tile, i) => tile === SOLVED[i]);
 
   function handleTileClick(index: number) {
     const emptyIndex = board.indexOf(0);
